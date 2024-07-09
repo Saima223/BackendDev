@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
@@ -23,21 +25,31 @@ app.post("/", function(req, res){
         }]
     };
     const jsonData = JSON.stringify(data);
-    const url = "https://us22.api.mailchimp.com/3.0/lists/928ed58936";
+    const url = `https://us22.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}`;
     const options = {
         method: "POST",
-        auth: "saima2:b885d35b3cee40a29a5bf7bf2e53ff31-us22"
+        auth: `anystring:${process.env.API_KEY}` 
     }
     const request = https.request(url, options, function(response){
         response.on("data", function(data){
             console.log(JSON.parse(data));
+        });
+
+        response.on("end", function(){
+            if(response.statusCode === 200){
+                res.sendFile(__dirname + "/success.html");
+            } else {
+                res.sendFile(__dirname + "/failure.html");
+            }
         })
     })
     request.write(jsonData);
     request.end();
 
 })
-
+app.post("/failure", function(req, res){
+    res.redirect("/");
+})
 app.get("/", function(req, res){
     res.sendFile(__dirname + "/signup.html");
 })
@@ -45,5 +57,3 @@ app.get("/", function(req, res){
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
 })
-//928ed58936
-//d4933ef2bd5ed8309af4186c434485fe-us22
