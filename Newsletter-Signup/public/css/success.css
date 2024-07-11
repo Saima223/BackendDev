@@ -16,6 +16,7 @@ body {
 #container {
     position: relative;
     left: 13%;
+    justify-content: center;
     margin: auto;
     overflow: hidden;
     width: 700px;
