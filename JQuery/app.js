@@ -13,4 +13,10 @@ $(document).ready(function() {
     $("#myParagraph").mouseleave(function() {
         $(this).css("color", "black");
     });
+    
+    $("#myButton").click(function() {
+        $('#myParagraph').slideUp();
+        $("#myButton").css("color", "white");
+        $('.text').hide();
+    });
 });
